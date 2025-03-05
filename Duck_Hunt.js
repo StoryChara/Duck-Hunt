@@ -1,5 +1,13 @@
+// Variables xd
 let menu = "Start";
 let scenarios, music, duck, dog;
+let ducks = []; // Array para almacenar los patos
+let score = 0; // Puntaje del jugador
+let crosshair; // Imagen de la mira
+let gameTime = 0; // Tiempo transcurrido en el juego
+let speedMultiplier = 1; // Multiplicador de velocidad de los patos
+let maxDucks = 2; // Límite máximo de patos en pantalla
+let spawnInterval = 120; // Intervalo de generación de patos (en frames)
 
 function preload() {
   scenarios = {
@@ -29,6 +37,8 @@ function preload() {
     found: loadImage("resources/sprites/dog_found.png"),
     jump: loadImage("resources/sprites/dog_jump.gif")
   }
+
+  crosshair = loadImage("resources/sprites/crosshair.png"); 
 }
 
 function setup() {
@@ -36,27 +46,12 @@ function setup() {
   canvas.parent('canvas-container');
 }
 
-
 function draw() {
-  if (menu === "Start"){
+  if (menu === "Start") {
     start_game();
-  } else if (menu === "Intro"){
+  } else if (menu === "Intro") {
     menu_intro();
   } else if (menu === "Game") {
     menu_game();
-  }
-}
-
-function keyPressed() {
-  if (menu === "Intro" && keyCode === 32){
-      music.song.stop();
-      menu = "Game";
-  }
-}
-
-function mousePressed() {
-  if (menu === "Start") {
-      introMusic();
-      menu = "Intro";
   }
 }

@@ -1,4 +1,4 @@
-function start_game(){
+function start_game() {
   push();
     background(0, 0, 0);
     fill(255);
@@ -9,7 +9,7 @@ function start_game(){
   pop();
 }
 
-function menu_intro(){  
+function menu_intro() {  
   push();
     imageMode(CORNER);
     image(scenarios.start, 0, 0);
@@ -21,10 +21,41 @@ function menu_intro(){
   pop();
 }
 
-function menu_game(){
+function menu_game() {
   push();
     background(99, 173, 255);
+
+    // Dibujar los patos 
+    for (let i = ducks.length - 1; i >= 0; i--) {
+      ducks[i].update();
+      ducks[i].display();
+      if (ducks[i].isOffScreen()) {
+        ducks.splice(i, 1); 
+      }
+    }
+
     imageMode(CORNER);
-    image(scenarios.game, 0, 0);
+    image(scenarios.game, 0, 0); 
+
+    imageMode(CENTER);
+    image(crosshair, mouseX, mouseY, 30, 30);
+
+    // Mostrar el puntaje
+    fill(255);
+    textFont(font.Pixel);
+    textSize(24);
+    textAlign(RIGHT, TOP);
+    text(`Score: ${score}`, width - 20, 20);
+
+    if (ducks.length < maxDucks && !ducks.some(duck => duck.state === "shot" || duck.state === "falling")) {
+      spawnDuck();
+    }
+
+    // Aumentar la velocidad de los patos con el tiempo
+    gameTime += deltaTime / 1000; 
+    if (gameTime > 10) {
+      speedMultiplier += 0.3; 
+      gameTime = 0; 
+    }
   pop();
 }
