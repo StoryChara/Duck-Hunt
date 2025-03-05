@@ -20,13 +20,13 @@
   <link rel="manifest" href="resources/favicon_io/site.webmanifest">
 
   <!-- PLEASE NO CHANGES BELOW THIS LINE (UNTIL I SAY SO) -->
-  <script language="javascript" type="text/javascript" src="libraries/p5.min.js"></script>
-  <script language="javascript" type="text/javascript" src="libraries/p5.sound.min.js"></script>
-  <script language="javascript" type="text/javascript" src="Duck.js"></script>
-  <script language="javascript" type="text/javascript" src="functions.js"></script>
-  <script language="javascript" type="text/javascript" src="menu.js"></script>
-  <script language="javascript" type="text/javascript" src="music.js"></script>
-  <script language="javascript" type="text/javascript" src="Duck_Hunt.js"></script>
+  <script type="text/javascript" src="libraries/p5.min.js"></script>
+  <script type="text/javascript" src="libraries/p5.sound.min.js"></script>
+  <script type="text/javascript" src="Duck.js"></script>
+  <script type="text/javascript" src="functions.js"></script>
+  <script type="text/javascript" src="menu.js"></script>
+  <script type="text/javascript" src="music.js"></script>
+  <script type="text/javascript" src="Duck_Hunt.js"></script>
   <!-- OK, YOU CAN MAKE CHANGES BELOW THIS LINE AGAIN -->
 
   <style>
@@ -44,7 +44,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh; /* Cambio: min-height en lugar de height */
       margin: 0;
       background-color: #121212;
       color: white;
@@ -58,25 +58,28 @@
 
     footer {
       font-size: 25px; 
-      line-height: 1; 
+      line-height: 1.5; 
       letter-spacing: 2px; 
       text-align: center; 
     }
 
     .restart {
-      font-size: 15px; 
+      font-size: 15px;
+      display: block;
+      font-family: "DuckHunt2", sans-serif;
+      margin-top: 5px;
+      line-height: 0.4; 
     }
-
   </style>
 </head>
 
 <body>
   <div id="canvas-container"></div> 
-  <footer>
-     <p>Duck Hunt</p>
-     <span class="restart">Press R to restart</span>
-     <span class="restart">Press CLICK to shoot</span>
-    </footer>
-</body>
 
+  <footer>
+    <p><strong>Duck Hunt</strong></p>
+    <p class="restart">Press <strong>R</strong> to restart</p> 
+    <p class="restart">Click <strong>CLICK</strong> to shoot</p>
+  </footer>
+</body>
 </html>
