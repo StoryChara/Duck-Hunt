@@ -1,10 +1,7 @@
-let dog_smell = -164;
-
 function keyPressed() {
   if (menu === "Intro") { 
     if (keyCode === 32) {
       music.song.stop();
-      menu = "Game";
       dogSmell();
     }
   } else if (menu === "Game") { 
@@ -51,25 +48,15 @@ function resetGame() {
   dogTime = 0; // Reset dog time
   menu = "Intro"; // Set the menu to "Game" after resetting
   spawnDuck(); // Start the game by spawning a duck
+  dog_smell = 0;
 }
 
 function spawnDuck() {
+  miss = 0;
   let newDuck = new Duck();
   ducks.push(newDuck);
   if (shots === 0) {
     shots = 3; // Reset shots counter when new ducks are spawned and shots are 0
   }
-}
-
-function checkDuckHit() {
-  for (let i = ducks.length - 1; i >= 0; i--) {
-    if (ducks[i].isHit(mouseX, mouseY)) {
-      ducks[i].getShot();
-      shots = 3; // Reset shots counter when a duck is hit
-      score += 50;
-      dogState = "showing"; // Set dog state to show the caught duck
-      dogTime = 0; // Reset dog timer
-      break;
-    }
-  }
+  quackSFX();
 }

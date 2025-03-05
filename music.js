@@ -26,16 +26,48 @@ function gunSFX(){
 
 //----------------------------------------------------------------------//
 
-function dogSmell(){
+function dogSmell() {
+  menu = "Game";
+  dogState = "smelling"; // Estado inicial del perro
+
   music.sfx_dog.stop();
-  music.sfx_dog.setPath("resources/sfx/Duck_Hunt_Intro.mp3",() => {
+  music.sfx_dog.setPath("resources/sfx/Duck_Hunt_Intro.mp3", () => {
     music.sfx_dog.play();
-    // Aquí inserta la logica de mostrar al perro oliendo
+
     music.sfx_dog.onended(function () {
-      music.sfx_dog.setPath("resources/sfx/Dog_Bark.mp3",() => {
-        image(dog.jump, 0, 0);
-        // Aquí inserta la logica de mostrar al perro saltando
+      music.sfx_dog.setPath("resources/sfx/Dog_Bark.mp3", () => {
+        music.sfx_dog.play();
+        dogState = "jumping"; // Cambiar a la animación del perro saltando
+
+        music.sfx_dog.onended(function () {
+          dogState = "idle";
+          spawnDuck(); // Iniciar el juego después de la animación del perro
+        });
       });
     });
+  });
+}
+
+function dogSFX(){
+  music.sfx_dog.stop();
+  if (dogState === "showing"){
+    music.sfx_dog.setPath("resources/sfx/Dog_Shows_Duck.mp3", () => {
+      music.sfx_dog.play();
+    });
+  } else {
+    music.sfx_dog.stop();
+    music.sfx_dog.setPath("resources/sfx/Dog_Laughs.mp3", () => {
+      music.sfx_dog.play();
+    });
+  }
+  
+}
+
+//----------------------------------------------------------------------//
+
+function quackSFX(){
+  music.sfx_quack.stop();
+  music.sfx_quack.setPath("resources/sfx/Duck_Quack.mp3", () => {
+    music.sfx_quack.play();
   });
 }

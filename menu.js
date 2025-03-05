@@ -1,3 +1,6 @@
+let dog_smell = 0;
+let miss = 0;
+
 function start_game() {
   push();
     background(0, 0, 0);
@@ -40,6 +43,7 @@ function menu_game() {
           score -= 100; // Penalización si el pato escapa
           missedDucks++; // Increment missed ducks counter
           dogState = "laughing"; // Set dog to laugh when duck escapes
+          dogSFX();
           dogTime = 0; // Reset dog timer
         }
         ducks.splice(i, 1);
@@ -67,11 +71,22 @@ function menu_game() {
     textAlign(LEFT, BOTTOM);
     text(`Missed Ducks: ${missedDucks}`, 34, height - 34);
     
+    if (dogState === "smelling") {
+      image(dog.smell, dog_smell, height - 100);
+      dog_smell += 1;
+    } else if (dogState === "jumping") {
+      image(dog.jump, dog_smell, height - 125);
+    }
+    
     // Check for spawning new ducks
-    if (ducks.length < maxDucks && !ducks.some(duck => duck.state === "shot" || duck.state === "falling")) {
-      if (dogState === "idle") {
-        spawnDuck();
+    if (ducks.length === 0 && dogState === "idle") { 
+      if (miss > 0) {
+        dogState = "laughing"; // Se ríe si escapó al menos un pato
+      } else {
+        dogState = "showing"; // Muestra el pato si los atrapamos todos
       }
+      dogSFX();
+      dogTime = 0; // Reiniciar el tiempo de animación
     }
     
     // Increase duck speed over time
@@ -90,31 +105,53 @@ function menu_game() {
 
 function showDog() {
   push();
-    imageMode(CENTER);
-    
-    // Calculate the rise animation progress (0 to 1) over the first 0.5 seconds
-    let riseProgress = Math.min(dogTime / 0.5, 1);
-    
-    // Calculate the dog's y position - starts at bottom of screen and rises to height - 160
-    // Using easeOutCubic for smoother animation
-    let easeValue = 1 - Math.pow(1 - riseProgress, 3); // Cubic easing
-    let startY = height - 160; // Start position at the bottom of screen
-    let endY = height - 190; // Final position
-    let dogY = startY - easeValue * (startY - endY);
-    
-    if (dogState === "laughing") {
-      image(dog.laugh, width / 2, dogY, 100, 100);
-    } else if (dogState === "showing") {
-      image(dog.found, width / 2, dogY, 100, 100);
-    }
-    
-    dogTime += deltaTime / 1000;
-    // Show dog for 2 seconds total (including the 0.5s rise animation)
-    if (dogTime > 2) {
-      dogState = "idle";
-      dogTime = 0;
-    }
+  imageMode(CENTER);
+
+  let totalDuration = 2; // Duración de la animación del perro
+  let progress = Math.min(dogTime / totalDuration, 1);
+
+  let startY = height - 160;
+  let peakY = height - 190;
+  let endY = startY;
+
+  let dogY;
+
+  if (progress < 0.5) {
+    let riseProgress = progress * 2;
+    let easeValue = 1 - Math.pow(1 - riseProgress, 3);
+    dogY = startY - easeValue * (startY - peakY);
+  } else {
+    let fallProgress = (progress - 0.5) * 2;
+    let easeValue = Math.pow(fallProgress, 3);
+    dogY = peakY + easeValue * (endY - peakY);
+  }
+
+  if (dogState === "laughing") {
+    image(dog.laugh, width / 2, dogY, 100, 100);
+  } else if (dogState === "showing") {
+    image(dog.found, width / 2, dogY, 100, 100);
+  }
+
+  dogTime += deltaTime / 1000;
+
+  if (dogTime > totalDuration) {
+    dogState = "idle"; // Permitir que `spawnDuck()` se ejecute
+    dogTime = 0;
+    spawnDuck(); // Generar un nuevo pato después de la animación
+  }
+
   pop();
+}
+
+function checkDuckHit() {
+  for (let i = ducks.length - 1; i >= 0; i--) {
+    if (ducks[i].isHit(mouseX, mouseY)) {
+      ducks[i].getShot();
+      shots = 3; // Reset shots counter when a duck is hit
+      score += 50;
+      break;
+    }
+  }
 }
 
 function gameOverScreen() {

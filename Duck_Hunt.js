@@ -23,6 +23,7 @@ function preload() {
     song: loadSound("resources/sfx/Title.mp3"),
     sfx_gun: loadSound("resources/sfx/Gun_Shot.mp3"),
     sfx_duck: loadSound("resources/sfx/Dead_Duck_Falls.mp3"),
+    sfx_quack: loadSound("resources/sfx/Duck_Quack.mp3"),
     sfx_dog: loadSound("resources/sfx/Duck_Hunt_Intro.mp3")
   };
   
@@ -62,6 +63,5 @@ function draw() {
     menu_game();
   } else if (menu === "GameOver") {
     gameOverScreen();
-    
   }
 }
