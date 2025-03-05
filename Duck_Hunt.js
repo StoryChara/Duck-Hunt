@@ -42,7 +42,7 @@ function preload() {
 }
 
 function setup() {
-  const canvas = createCanvas(625, 550);
+  const canvas = createCanvas(1062.5, 935); // 70% larger
   canvas.parent('canvas-container');
 }
 
@@ -53,5 +53,7 @@ function draw() {
     menu_intro();
   } else if (menu === "Game") {
     menu_game();
+  } else if (menu === "GameOver") {
+    gameOverScreen();
   }
 }

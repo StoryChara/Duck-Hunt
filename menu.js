@@ -4,20 +4,20 @@ function start_game() {
     fill(255);
     textFont(font.Duck);
     textAlign(CENTER, CENTER);
-    fill(255); stroke(0); strokeWeight(0); textSize(width/15);
-    text("CLICK to Start", (width / 2), (height/2));
+    fill(255); stroke(0); strokeWeight(0); textSize(width / 14); // 70% larger
+    text("CLICK to Start", (width / 2), (height / 2));
   pop();
 }
 
 function menu_intro() {  
   push();
     imageMode(CORNER);
-    image(scenarios.start, 0, 0);
+    image(scenarios.start, 0, 0, width, height); // Adjust image size to canvas
     fill(255);
     textFont(font.Pixel);
     textAlign(CENTER, CENTER);
-    fill(234, 158, 34); stroke(0); strokeWeight(5); textSize(height / 30);
-    text("Press SPACE to continue", (width / 2), ((3 * height) / 4) + 25);
+    fill(234, 158, 34); stroke(0); strokeWeight(8.5); textSize(height /20); // 70% larger
+    text("Press SPACE to continue", (width / 2), ((3 * height) / 4) + 42.5); // 70% larger
   pop();
 }
 
@@ -30,22 +30,30 @@ function menu_game() {
       ducks[i].update();
       ducks[i].display();
       if (ducks[i].isOffScreen()) {
+        if (ducks[i].state === "flying") {
+          score -= 100; // Penalización si el pato escapa
+      }
         ducks.splice(i, 1); 
       }
     }
 
     imageMode(CORNER);
-    image(scenarios.game, 0, 0); 
+    image(scenarios.game, 0, 0, width, height); // Adjust image size to canvas
 
     imageMode(CENTER);
-    image(crosshair, mouseX, mouseY, 30, 30);
+    noCursor();
+    image(crosshair, mouseX, mouseY, 51, 51); // 70% larger
+
+    if (score < -500) { // Condición para perder
+      menu = "GameOver";
+    }
 
     // Mostrar el puntaje
     fill(255);
     textFont(font.Pixel);
-    textSize(24);
+    textSize(40.8); // 70% larger
     textAlign(RIGHT, TOP);
-    text(`Score: ${score}`, width - 20, 20);
+    text(`Score: ${score}`, width - 34, 34); // 70% larger
 
     if (ducks.length < maxDucks && !ducks.some(duck => duck.state === "shot" || duck.state === "falling")) {
       spawnDuck();
@@ -57,5 +65,27 @@ function menu_game() {
       speedMultiplier += 0.3; 
       gameTime = 0; 
     }
+  pop();
+}
+
+function gameOverScreen() {
+  push();
+    background(0, 0, 0, 150); // Semi-transparent background
+    fill(255);
+    rectMode(CENTER);
+    rect(width / 2, height / 2, 510, 340); // 70% larger
+
+    fill(0);
+    textFont(font.Pixel);
+    textAlign(CENTER, CENTER);
+    textSize(40.8); // 70% larger
+    text(`Game Over\nScore: ${score}`, width / 2, height / 2 - 90); // Move score up
+
+    fill(234, 158, 34);
+    rect(width / 2, height / 2 + 100, 200, 50); // Adjust button size and position
+    fill(0);
+    textSize(20.4); // 50% of the score text size
+    text("Restart", width / 2, height / 2 + 100); // Adjust button text
+    cursor(ARROW); // Show the mouse cursor
   pop();
 }
