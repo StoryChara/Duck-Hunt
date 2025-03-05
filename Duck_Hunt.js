@@ -20,7 +20,10 @@ function preload() {
   };
   
   music = {
-    song: loadSound("resources/sfx/Title.mp3")
+    song: loadSound("resources/sfx/Title.mp3"),
+    sfx_gun: loadSound("resources/sfx/Gun_Shot.mp3"),
+    sfx_duck: loadSound("resources/sfx/Dead_Duck_Falls.mp3"),
+    sfx_dog: loadSound("resources/sfx/Duck_Hunt_Intro.mp3")
   };
   
   font = {
@@ -59,5 +62,6 @@ function draw() {
     menu_game();
   } else if (menu === "GameOver") {
     gameOverScreen();
+    
   }
 }

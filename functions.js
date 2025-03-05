@@ -1,18 +1,22 @@
-function keyPressed() {
-  if (menu === "Intro" && keyCode === 32) { 
-    music.song.stop();
-    menu = "Game";
-    spawnDuck(); 
-  }
+let dog_smell = -164;
 
-  if (key === 'R' || key === 'r') { // Reiniciar el juego
-    menu = "Start";
-    ducks = [];
-    score = 0;
-    gameTime = 0;
-    speedMultiplier = 1;
-    maxDucks = 2;
-    spawnInterval = 120;
+function keyPressed() {
+  if (menu === "Intro") { 
+    if (keyCode === 32) {
+      music.song.stop();
+      menu = "Game";
+      dogSmell();
+    }
+  } else if (menu === "Game") { 
+    if (key === 'R' || key === 'r') {
+      menu = "Start";
+      ducks = [];
+      score = 0;
+      gameTime = 0;
+      speedMultiplier = 1;
+      maxDucks = 2;
+      spawnInterval = 120;
+    }
   }
 }
 
@@ -24,6 +28,7 @@ function mousePressed() {
     if (shots > 0) {
       shots--; // Decrease shots counter when mouse is pressed
       checkDuckHit();
+      gunSFX();
       // Decrease shots counter
     }
   } else if (menu === "GameOver") {

@@ -5,6 +5,7 @@ class Duck {
     this.state = "flying"; 
     this.shotTime = 0; 
     this.missed = false; // Nuevo atributo para saber si el pato escapó
+    this.sfx = music.sfx_duck;
 
     // Generar posición inicial en las esquinas inferiores o el borde inferior
     let spawnPoint = floor(random(3)); // 0: esquina inferior izquierda, 1: esquina inferior derecha, 2: borde inferior
@@ -42,7 +43,17 @@ class Duck {
   display() {
     imageMode(CENTER);
     if (this.state === "flying") {
-      image(this.image, this.x, this.y, this.size, this.size);
+      if (this.speedX >= 0) {
+        image(this.image, this.x, this.y, this.size, this.size);
+      } else {
+        push();
+        imageMode(CENTER);
+        translate(this.x, this.y);
+        scale(-1, 1);
+        image(this.image, 0, 0, this.size, this.size);
+        pop();
+      }
+
     } else if (this.state === "shot") {
       image(duck.disparo, this.x, this.y, this.size, this.size);
     } else if (this.state === "falling") {
@@ -61,5 +72,6 @@ class Duck {
   getShot() {
     this.state = "shot";
     this.shotTime = millis(); 
+    this.sfx.play();
   }
 }

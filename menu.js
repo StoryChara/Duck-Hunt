@@ -43,10 +43,11 @@ function menu_game() {
 
     imageMode(CENTER);
     noCursor();
-    image(crosshair, mouseX, mouseY, 51, 51); // 70% larger
+    image(crosshair, mouseX, mouseY, 50, 50); // 70% larger
 
     if (missedDucks >= 3) { // Condición para perder
       menu = "GameOver";
+      failMusic();
     }
 
 // Mostrar el puntaje
