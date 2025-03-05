@@ -64,9 +64,11 @@ function spawnDuck() {
 function checkDuckHit() {
   for (let i = ducks.length - 1; i >= 0; i--) {
     if (ducks[i].isHit(mouseX, mouseY)) {
-      ducks[i].getShot(); 
+      ducks[i].getShot();
       shots = 3; // Reset shots counter when a duck is hit
-      score += 50; 
+      score += 50;
+      dogState = "showing"; // Set dog state to show the caught duck
+      dogTime = 0; // Reset dog timer
       break;
     }
   }

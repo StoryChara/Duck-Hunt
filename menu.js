@@ -33,8 +33,10 @@ function menu_game() {
         if (ducks[i].state === "flying") {
           score -= 100; // Penalización si el pato escapa
           missedDucks++; // Increment missed ducks counter
+          dogState = "laughing"; // Set dog state to laugh
+          dogTime = 0; // Reset dog timer
         }
-        ducks.splice(i, 1); 
+        ducks.splice(i, 1);
       }
     }
 
@@ -65,11 +67,11 @@ function menu_game() {
     textAlign(LEFT, BOTTOM);
     text(`Missed Ducks: ${missedDucks}`, 34, height - 34); 
 
-    if (ducks.length < maxDucks && !ducks.some(duck => duck.state === "shot" || duck.state === "falling")) {
-      if (dogState === "idle" ) {
-        spawnDuck();
-      } else {
+    if (ducks.length < maxDucks) {
+      if (dogState === "laughing" || dogState === "showing") {
         showDog();
+      } else {
+        spawnDuck();
       }
     }
 
