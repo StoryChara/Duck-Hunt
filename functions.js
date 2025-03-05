@@ -44,7 +44,7 @@ function resetGame() {
   shots = 3; // Reset shots counter
   dogState = "idle"; // Reset dog state
   dogTime = 0; // Reset dog time
-  menu = "Game"; // Set the menu to "Game" after resetting
+  menu = "Intro"; // Set the menu to "Game" after resetting
   spawnDuck(); // Start the game by spawning a duck
 }
 

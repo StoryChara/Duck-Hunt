@@ -1,6 +1,6 @@
 class Duck {
   constructor() {
-    this.size = 119; // 70% larger
+    this.size = 65;
     this.image = random([duck.diagonal, duck.lado]);
     this.state = "flying"; 
     this.shotTime = 0; 

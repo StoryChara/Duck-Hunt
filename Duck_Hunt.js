@@ -46,7 +46,7 @@ function preload() {
 }
 
 function setup() {
-  const canvas = createCanvas(1062.5, 935); // 70% larger
+  const canvas = createCanvas(625, 550);
   canvas.parent('canvas-container');
 }
 

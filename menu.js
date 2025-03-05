@@ -49,20 +49,20 @@ function menu_game() {
       menu = "GameOver";
     }
 
-    // Mostrar el puntaje
+// Mostrar el puntaje
     fill(255);
     textFont(font.Pixel);
-    textSize(40.8); // 70% larger
+    textSize(20); 
     textAlign(RIGHT, TOP);
-    text(`Score: ${score}`, width - 34, 34); // 70% larger
+    text(`Score: ${score}`, width - 34, 34); 
 
     // Mostrar los disparos restantes
     textAlign(LEFT, TOP);
-    text(`Shots: ${shots}`, 34, 34); // 70% larger
+    text(`Shots: ${shots}`, 34, 34); 
 
     // Mostrar los patos que se han volado
     textAlign(LEFT, BOTTOM);
-    text(`Missed Ducks: ${missedDucks}`, 34, height - 34); // 70% larger
+    text(`Missed Ducks: ${missedDucks}`, 34, height - 34); 
 
     if (ducks.length < maxDucks && !ducks.some(duck => duck.state === "shot" || duck.state === "falling")) {
       if (dogState === "idle" ) {
