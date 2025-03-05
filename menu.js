@@ -32,7 +32,8 @@ function menu_game() {
       if (ducks[i].isOffScreen()) {
         if (ducks[i].state === "flying") {
           score -= 100; // Penalización si el pato escapa
-      }
+          missedDucks++; // Increment missed ducks counter
+        }
         ducks.splice(i, 1); 
       }
     }
@@ -44,7 +45,7 @@ function menu_game() {
     noCursor();
     image(crosshair, mouseX, mouseY, 51, 51); // 70% larger
 
-    if (score < -500) { // Condición para perder
+    if (missedDucks >= 3) { // Condición para perder
       menu = "GameOver";
     }
 
@@ -55,8 +56,20 @@ function menu_game() {
     textAlign(RIGHT, TOP);
     text(`Score: ${score}`, width - 34, 34); // 70% larger
 
+    // Mostrar los disparos restantes
+    textAlign(LEFT, TOP);
+    text(`Shots: ${shots}`, 34, 34); // 70% larger
+
+    // Mostrar los patos que se han volado
+    textAlign(LEFT, BOTTOM);
+    text(`Missed Ducks: ${missedDucks}`, 34, height - 34); // 70% larger
+
     if (ducks.length < maxDucks && !ducks.some(duck => duck.state === "shot" || duck.state === "falling")) {
-      spawnDuck();
+      if (dogState === "idle" ) {
+        spawnDuck();
+      } else {
+        showDog();
+      }
     }
 
     // Aumentar la velocidad de los patos con el tiempo
@@ -64,6 +77,22 @@ function menu_game() {
     if (gameTime > 10) {
       speedMultiplier += 0.3; 
       gameTime = 0; 
+    }
+  pop();
+}
+
+function showDog() {
+  push();
+    imageMode(CENTER);
+    if (dogState === "laughing") {
+      image(dog.laugh, width / 2, height / 2, 200, 200); // Ajustar tamano perro riendose
+    } else if (dogState === "showing") {
+      image(dog.found, width / 2, height / 2, 200, 200); // tamano y perro mostrando patos
+    }
+    dogTime += deltaTime / 1000;
+    if (dogTime > 2) { // Show dog for 2 seconds
+      dogState = "idle";
+      dogTime = 0;
     }
   pop();
 }

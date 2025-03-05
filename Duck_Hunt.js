@@ -8,6 +8,10 @@ let gameTime = 0; // Tiempo transcurrido en el juego
 let speedMultiplier = 1; // Multiplicador de velocidad de los patos
 let maxDucks = 2; // Límite máximo de patos en pantalla
 let spawnInterval = 120; // Intervalo de generación de patos (en frames)
+let missedDucks = 0; // Contador de patos perdidos
+let dogState = "idle"; // Estado del perro (idle, laughing, showing)
+let dogTime = 0; // Tiempo que el perro ha estado en pantalla
+let shots = 3; // Contador de disparos
 
 function preload() {
   scenarios = {
